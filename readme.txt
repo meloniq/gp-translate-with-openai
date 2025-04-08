@@ -1,7 +1,7 @@
 === GP Translate with OpenAI ===
 Contributors: meloniq
 Tags: glotpress, translate, machine translate, openai, chatgpt
-Tested up to: 6.7
+Tested up to: 6.8
 Stable tag: 1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
