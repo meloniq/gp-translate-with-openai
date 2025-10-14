@@ -1,8 +1,17 @@
 <?php
+/**
+ * Frontend class file.
+ *
+ * @package Meloniq\GpOpenaiTranslate
+ */
+
 namespace Meloniq\GpOpenaiTranslate;
 
 use GP;
 
+/**
+ * Frontend class.
+ */
 class Frontend {
 
 	/**
@@ -28,12 +37,18 @@ class Frontend {
 		add_filter( 'gp_entry_actions', array( $this, 'gp_entry_actions' ), 10, 1 );
 		add_action( 'gp_translation_set_bulk_action', array( $this, 'gp_translation_set_bulk_action' ), 10, 1 );
 		add_action( 'gp_translation_set_bulk_action_post', array( $this, 'gp_translation_set_bulk_action_post' ), 10, 4 );
-
 	}
 
-	// This function loads the javascript when required.
+	/**
+	 * This function loads the javascript when required.
+	 *
+	 * @param string $template The current template.
+	 * @param array  $args The current arguments.
+	 *
+	 * @return void
+	 */
 	public function gp_pre_tmpl_load( $template, $args ) {
-		// Check if we are on the translation template
+		// Check if we are on the translation template.
 		if ( 'translations' !== $template ) {
 			return;
 		}
@@ -51,7 +66,7 @@ class Frontend {
 			'nonce'   => wp_create_nonce( 'gpoai_nonce' ),
 		);
 
-		wp_register_script( 'gp-translate-with-openai-js', plugins_url( 'assets/gpoai_translate.js', dirname( __FILE__ ) ), array( 'jquery', 'editor', 'gp-common' ), '1.0', true );
+		wp_register_script( 'gp-translate-with-openai-js', plugins_url( 'assets/gpoai_translate.js', __DIR__ ), array( 'jquery', 'editor', 'gp-common' ), '1.0', true );
 		gp_enqueue_script( 'gp-translate-with-openai-js' );
 		wp_localize_script( 'gp-translate-with-openai-js', 'gpoai_translate', $options );
 	}
@@ -63,7 +78,7 @@ class Frontend {
 	 *
 	 * @return array The updated actions array.
 	 */
-	public function gp_entry_actions( array $actions ) : array {
+	public function gp_entry_actions( array $actions ): array {
 		if ( ! $this->is_locale_supported ) {
 			return $actions;
 		}
@@ -78,7 +93,7 @@ class Frontend {
 	 *
 	 * @return void
 	 */
-	public function gp_translation_set_bulk_action() : void {
+	public function gp_translation_set_bulk_action(): void {
 		if ( ! $this->is_locale_supported ) {
 			return;
 		}
@@ -92,11 +107,11 @@ class Frontend {
 	 * @param object $project The current project object.
 	 * @param object $locale The current locale object.
 	 * @param object $translation_set The current translation set object.
-	 * @param array $bulk The current bulk action array.
+	 * @param array  $bulk The current bulk action array.
 	 *
 	 * @return void
 	 */
-	public function gp_translation_set_bulk_action_post( $project, $locale, $translation_set, $bulk ) : void {
+	public function gp_translation_set_bulk_action_post( $project, $locale, $translation_set, $bulk ): void {
 		// Check if the action is the one we are looking for.
 		if ( 'gpoai_translate' !== $bulk['action'] ) {
 			return;
@@ -105,6 +120,4 @@ class Frontend {
 		$translate = Translate::instance();
 		$translate->gp_translation_set_bulk_action_post( $project, $locale, $translation_set, $bulk );
 	}
-
-
 }

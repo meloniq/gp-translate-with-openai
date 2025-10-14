@@ -1,6 +1,15 @@
 <?php
+/**
+ * Config class file.
+ *
+ * @package Meloniq\GpOpenaiTranslate
+ */
+
 namespace Meloniq\GpOpenaiTranslate;
 
+/**
+ * Config class.
+ */
 class Config {
 
 	/**
@@ -8,13 +17,13 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public static function get_api_key() : string {
+	public static function get_api_key(): string {
 		// User API key has priority.
 		if ( self::get_user_api_key() ) {
 			return self::get_user_api_key();
 		}
 
-		// Get the global key
+		// Get the global key.
 		return get_option( 'gpoai_api_key' );
 	}
 
@@ -23,7 +32,7 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public static function get_user_api_key() : string {
+	public static function get_user_api_key(): string {
 		$user_id = self::get_current_user_id();
 
 		// No user ID.
@@ -42,7 +51,7 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public static function get_model() : string {
+	public static function get_model(): string {
 		// User model has priority.
 		if ( self::get_user_model() ) {
 			return self::get_user_model();
@@ -57,7 +66,7 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public static function get_user_model() : string {
+	public static function get_user_model(): string {
 		$user_id = self::get_current_user_id();
 
 		// No user ID.
@@ -76,7 +85,7 @@ class Config {
 	 *
 	 * @return float
 	 */
-	public static function get_temperature() : float {
+	public static function get_temperature(): float {
 		// User temperature has priority.
 		if ( self::get_user_temperature() ) {
 			return self::get_user_temperature();
@@ -91,7 +100,7 @@ class Config {
 	 *
 	 * @return float
 	 */
-	public static function get_user_temperature() : float {
+	public static function get_user_temperature(): float {
 		$user_id = self::get_current_user_id();
 
 		// No user ID.
@@ -110,7 +119,7 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public static function get_custom_prompt() : string {
+	public static function get_custom_prompt(): string {
 		// User custom prompt has priority.
 		if ( self::get_user_custom_prompt() ) {
 			return self::get_user_custom_prompt();
@@ -125,7 +134,7 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public static function get_user_custom_prompt() : string {
+	public static function get_user_custom_prompt(): string {
 		$user_id = self::get_current_user_id();
 
 		// No user ID.
@@ -144,15 +153,14 @@ class Config {
 	 *
 	 * @return int
 	 */
-	public static function get_current_user_id() : int {
+	public static function get_current_user_id(): int {
 		$user_id = 0;
 
 		if ( is_user_logged_in() ) {
-			$user = wp_get_current_user();
+			$user    = wp_get_current_user();
 			$user_id = $user->ID;
 		}
 
 		return $user_id;
 	}
-
 }

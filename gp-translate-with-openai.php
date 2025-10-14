@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Plugin Name:       GP Translate with OpenAI
  * Plugin URI:        https://blog.meloniq.net/gp-translate-with-openai
  *
@@ -17,6 +17,8 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
  *
  * Text Domain:       gp-translate-with-openai
+ *
+ * @package Meloniq\GpOpenaiTranslate
  */
 
 namespace Meloniq\GpOpenaiTranslate;
@@ -31,7 +33,7 @@ define( 'GPOAI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'GPOAI_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
 // Include the autoloader so we can dynamically include the rest of the classes.
-require_once trailingslashit( dirname( __FILE__ ) ) . 'vendor/autoload.php';
+require_once trailingslashit( __DIR__ ) . 'vendor/autoload.php';
 
 
 /**
@@ -47,7 +49,5 @@ function setup() {
 	$gpoai_translate['profile']    = new Profile();
 	$gpoai_translate['frontend']   = new Frontend();
 	$gpoai_translate['ajax']       = new Ajax();
-
 }
 add_action( 'after_setup_theme', 'Meloniq\GpOpenaiTranslate\setup' );
-

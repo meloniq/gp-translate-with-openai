@@ -1,6 +1,15 @@
 <?php
+/**
+ * Settings class file.
+ *
+ * @package Meloniq\GpOpenaiTranslate
+ */
+
 namespace Meloniq\GpOpenaiTranslate;
 
+/**
+ * Settings class.
+ */
 class Settings {
 
 	/**
@@ -10,7 +19,6 @@ class Settings {
 	 */
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'init_settings' ), 10 );
-
 	}
 
 	/**
@@ -18,7 +26,7 @@ class Settings {
 	 *
 	 * @return void
 	 */
-	public function init_settings() : void {
+	public function init_settings(): void {
 		// Section: OpenAI API.
 		add_settings_section(
 			'gpoai_section',
@@ -38,7 +46,6 @@ class Settings {
 
 		// Option: Temperature.
 		$this->register_field_temperature();
-
 	}
 
 	/**
@@ -46,7 +53,7 @@ class Settings {
 	 *
 	 * @return void
 	 */
-	public function render_section() : void {
+	public function render_section(): void {
 		esc_html_e( 'Settings for OpenAI API access.', 'gp-translate-with-openai' );
 	}
 
@@ -55,7 +62,7 @@ class Settings {
 	 *
 	 * @return void
 	 */
-	public function register_field_api_key() : void {
+	public function register_field_api_key(): void {
 		$field_name    = 'gpoai_api_key';
 		$section_name  = 'gpoai_section';
 		$settings_name = 'gpoai_settings';
@@ -90,7 +97,7 @@ class Settings {
 	 *
 	 * @return void
 	 */
-	public function register_field_model() : void {
+	public function register_field_model(): void {
 		$field_name    = 'gpoai_model';
 		$section_name  = 'gpoai_section';
 		$settings_name = 'gpoai_settings';
@@ -120,7 +127,12 @@ class Settings {
 		);
 	}
 
-	public function register_field_custom_prompt() : void {
+	/**
+	 * Register settings for OpenAI Custom Prompt.
+	 *
+	 * @return void
+	 */
+	public function register_field_custom_prompt(): void {
 		$field_name    = 'gpoai_custom_prompt';
 		$section_name  = 'gpoai_section';
 		$settings_name = 'gpoai_settings';
@@ -155,7 +167,7 @@ class Settings {
 	 *
 	 * @return void
 	 */
-	public function register_field_temperature() : void {
+	public function register_field_temperature(): void {
 		$field_name    = 'gpoai_temperature';
 		$section_name  = 'gpoai_section';
 		$settings_name = 'gpoai_settings';
@@ -190,7 +202,7 @@ class Settings {
 	 *
 	 * @return void
 	 */
-	public function render_field_api_key() : void {
+	public function render_field_api_key(): void {
 		$field_name = 'gpoai_api_key';
 
 		$api_key = get_option( $field_name, '' );
@@ -205,7 +217,7 @@ class Settings {
 	 *
 	 * @return void
 	 */
-	public function render_field_model() : void {
+	public function render_field_model(): void {
 		$field_name = 'gpoai_model';
 
 		$models = array(
@@ -232,7 +244,7 @@ class Settings {
 	 *
 	 * @return void
 	 */
-	public function render_field_custom_prompt() : void {
+	public function render_field_custom_prompt(): void {
 		$field_name = 'gpoai_custom_prompt';
 
 		$custom_prompt = get_option( $field_name, '' );
@@ -247,7 +259,7 @@ class Settings {
 	 *
 	 * @return void
 	 */
-	public function render_field_temperature() : void {
+	public function render_field_temperature(): void {
 		$field_name = 'gpoai_temperature';
 
 		$temp = get_option( $field_name, 0 );
@@ -256,6 +268,4 @@ class Settings {
 		<p class="description"><?php esc_html_e( 'Enter the OpenAI Temperature.', 'gp-translate-with-openai' ); ?> <?php esc_html_e( 'Default:', 'gp-translate-with-openai' ); ?><code>0</code></p>
 		<?php
 	}
-
-
 }

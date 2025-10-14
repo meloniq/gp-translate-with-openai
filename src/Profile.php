@@ -1,6 +1,15 @@
 <?php
+/**
+ * Profile class file.
+ *
+ * @package Meloniq\GpOpenaiTranslate
+ */
+
 namespace Meloniq\GpOpenaiTranslate;
 
+/**
+ * Profile class.
+ */
 class Profile {
 
 	/**
@@ -14,7 +23,6 @@ class Profile {
 
 		add_action( 'personal_options_update', array( $this, 'personal_options_update' ), 10, 1 );
 		add_action( 'edit_user_profile_update', array( $this, 'edit_user_profile_update' ), 10, 1 );
-
 	}
 
 	/**
@@ -24,7 +32,7 @@ class Profile {
 	 *
 	 * @return void
 	 */
-	public function show_user_profile( $user ) : void {
+	public function show_user_profile( $user ): void {
 		$this->edit_user_profile( $user );
 	}
 
@@ -35,7 +43,7 @@ class Profile {
 	 *
 	 * @return void
 	 */
-	public function edit_user_profile( $user ) : void {
+	public function edit_user_profile( $user ): void {
 		if ( ! current_user_can( 'edit_user', $user->ID ) ) {
 			return;
 		}
@@ -107,7 +115,7 @@ class Profile {
 	 *
 	 * @return void
 	 */
-	public function personal_options_update( $user_id ) : void {
+	public function personal_options_update( $user_id ): void {
 		$user = get_user_by( 'id', $user_id );
 		if ( ! $user || ! current_user_can( 'edit_user', $user->ID ) ) {
 			return;
@@ -141,12 +149,11 @@ class Profile {
 	 *
 	 * @return void
 	 */
-	public function edit_user_profile_update( $user ) : void {
+	public function edit_user_profile_update( $user ): void {
 		if ( ! is_object( $user ) ) {
 			$user = get_user_by( 'id', $user );
 		}
 
 		$this->personal_options_update( $user->ID );
 	}
-
 }

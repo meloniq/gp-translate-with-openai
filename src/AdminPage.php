@@ -1,6 +1,15 @@
 <?php
+/**
+ * AdminPage class file.
+ *
+ * @package Meloniq\GpOpenaiTranslate
+ */
+
 namespace Meloniq\GpOpenaiTranslate;
 
+/**
+ * AdminPage class.
+ */
 class AdminPage {
 
 	/**
@@ -10,7 +19,6 @@ class AdminPage {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_menu_page' ), 10 );
-
 	}
 
 	/**
@@ -18,7 +26,7 @@ class AdminPage {
 	 *
 	 * @return void
 	 */
-	public function add_menu_page() : void {
+	public function add_menu_page(): void {
 		add_submenu_page(
 			'options-general.php',
 			__( 'GP Translate with OpenAI', 'gp-translate-with-openai' ),
@@ -34,7 +42,7 @@ class AdminPage {
 	 *
 	 * @return void
 	 */
-	public function render_page() : void {
+	public function render_page(): void {
 		?>
 		<div class="wrap">
 			<h1><?php esc_html_e( 'GP Translate with OpenAI', 'gp-translate-with-openai' ); ?></h1>
@@ -48,5 +56,4 @@ class AdminPage {
 		</div>
 		<?php
 	}
-
 }
