@@ -11,20 +11,12 @@ class ComposerStaticInitd82f6199266ba26d95b7080b5779066b
         array (
             'Orhanerday\\OpenAi\\' => 18,
         ),
-        'M' => 
-        array (
-            'Meloniq\\GpOpenaiTranslate\\' => 26,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'Orhanerday\\OpenAi\\' => 
         array (
             0 => __DIR__ . '/..' . '/orhanerday/open-ai/src',
-        ),
-        'Meloniq\\GpOpenaiTranslate\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
