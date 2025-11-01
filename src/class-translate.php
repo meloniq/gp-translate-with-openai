@@ -1,11 +1,20 @@
 <?php
-namespace Gp\OpenaiTranslate;
+/**
+ * Translate class file.
+ *
+ * @package Meloniq\GpOpenaiTranslate
+ */
+
+namespace Meloniq\GpOpenaiTranslate;
 
 use Orhanerday\OpenAi\OpenAi;
 use GP;
 use GP_Locales;
 use WP_Error;
 
+/**
+ * Translate class.
+ */
 class Translate {
 
 	/**
@@ -20,7 +29,7 @@ class Translate {
 	 *
 	 * @return Translate
 	 */
-	public static function instance() : Translate {
+	public static function instance(): Translate {
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -40,7 +49,7 @@ class Translate {
 	 * This function is used to bulk translate a set of strings.
 	 *
 	 * @param string|object $locale The locale to translate to.
-	 * @param array $strings The strings to translate.
+	 * @param array         $strings The strings to translate.
 	 *
 	 * @return array|WP_Error The translated strings or an error.
 	 */
@@ -60,7 +69,7 @@ class Translate {
 	 *
 	 * @return string
 	 */
-	public function translate( string $text, string $locale ) : string {
+	public function translate( string $text, string $locale ): string {
 		// Check if the locale is supported.
 		if ( ! Locales::is_supported( $locale ) ) {
 			return $text;
@@ -69,21 +78,21 @@ class Translate {
 		$api_key = Config::get_api_key();
 		$openai  = new OpenAi( $api_key );
 
-		// get locale object
+		// get locale object.
 		$locale_obj = GP_Locales::by_slug( $locale );
 		if ( ! $locale_obj ) {
 			return new WP_Error( 'gp_set_no_locale', 'Locale not found!' );
 		}
 
-		// get prompt
+		// get prompt.
 		$base_prompt   = sprintf( 'Translate the following text to %s language: ', $locale_obj->english_name );
 		$custom_prompt = Config::get_custom_prompt();
 		$prompt        = $custom_prompt . ' ' . $base_prompt . ' ' . $text;
 
-		// build request
+		// build request.
 		$request = array(
-			'model'    => Config::get_model(),
-			'messages' => array(
+			'model'             => Config::get_model(),
+			'messages'          => array(
 				array(
 					'role'    => 'user',
 					'content' => $prompt,
@@ -95,26 +104,25 @@ class Translate {
 			'presence_penalty'  => 0,
 		);
 
-		// get response
+		// get response.
 		$chat     = $openai->chat( $request );
 		$response = json_decode( $chat );
 
-		// check for api error
+		// check for api error.
 		if ( isset( $response->error->code ) ) {
-			// 'insufficient_quota', 'context_length_exceeded'
-			//$error = $response->error->message;
+			// insufficient_quota, context_length_exceeded.
 			return $text;
 		}
 
-		// check if response is valid
+		// check if response is valid.
 		if ( ! $response || ! isset( $response->choices ) || ! is_array( $response->choices ) ) {
 			return $text;
 		}
 
-		// get translation
+		// get translation.
 		$translation = $response->choices[0]->message->content;
 
-		// check if something has left
+		// check if something has left.
 		if ( empty( $translation ) ) {
 			return $text;
 		}
@@ -126,23 +134,23 @@ class Translate {
 	 * This function is used to bulk translate a set of strings using OpenAI.
 	 *
 	 * @param string $locale The locale to translate to.
-	 * @param array $strings The strings to translate.
+	 * @param array  $strings The strings to translate.
 	 *
 	 * @return array|WP_Error The translated strings or an error.
 	 */
 	protected function openai_translate_batch( $locale, $strings ) {
 		if ( ! Locales::is_supported( $locale ) ) {
-			return new WP_Error( 'gp_openai_translate', sprintf( "The locale %s isn't supported by OpenAI.", $locale ) );
+			return new WP_Error( 'gpoai_translate', sprintf( "The locale %s isn't supported by OpenAI.", $locale ) );
 		}
 
 		// If we don't have any strings, throw an error.
-		if ( count( $strings ) == 0 ) {
-			return new WP_Error( 'gp_openai_translate', 'No strings found to translate.' );
+		if ( count( $strings ) === 0 ) {
+			return new WP_Error( 'gpoai_translate', 'No strings found to translate.' );
 		}
 
 		// If we have too many strings, throw an error.
 		if ( count( $strings ) > 50 ) {
-			return new WP_Error( 'gp_openai_translate', 'Only 50 strings allowed.' );
+			return new WP_Error( 'gpoai_translate', 'Only 50 strings allowed.' );
 		}
 
 		$translated_strings = array();
@@ -153,15 +161,15 @@ class Translate {
 		// Merge the originals and translations arrays.
 		$items = gp_array_zip( $strings, $translated_strings );
 		if ( ! $items ) {
-			return new WP_Error( 'gp_openai_translate', 'Error merging arrays' );
+			return new WP_Error( 'gpoai_translate', 'Error merging arrays' );
 		}
 
 		// Loop through the items and clean up the responses.
 		$translations = array();
 		foreach ( $items as $item ) {
 			list( $string, $translation ) = $item;
-			$translation = $this->clean_translation( $translation );
-			$translations[] = $translation;
+			$translation                  = $this->clean_translation( $translation );
+			$translations[]               = $translation;
 		}
 
 		return $translations;
@@ -170,15 +178,27 @@ class Translate {
 	/**
 	 * Cleans up the translation string.
 	 *
-	 * @param string $string The string to clean.
+	 * @param string $text The string to clean.
 	 *
 	 * @return string
 	 */
-	protected function clean_translation( $string ) {
-		$string = preg_replace_callback( '/% (s|d)/i', function ($m) { return '"%".strtolower($m[1])'; }, $string );
-		$string = preg_replace_callback( '/% (\d+) \$ (s|d)/i', function ($m) { return '"%".$m[1]."\\$".strtolower($m[2])'; }, $string );
+	protected function clean_translation( $text ) {
+		$text = preg_replace_callback(
+			'/% (s|d)/i',
+			function ( $m ) { // phpcs:ignore
+				return '"%".strtolower($m[1])';
+			},
+			$text
+		);
+		$text = preg_replace_callback(
+			'/% (\d+) \$ (s|d)/i',
+			function ( $m ) { // phpcs:ignore
+				return '"%".$m[1]."\\$".strtolower($m[2])';
+			},
+			$text
+		);
 
-		return $string;
+		return $text;
 	}
 
 	/**
@@ -187,13 +207,13 @@ class Translate {
 	 * @param object $project The current project object.
 	 * @param object $locale The current locale object.
 	 * @param object $translation_set The current translation set object.
-	 * @param array $bulk The current bulk action array.
+	 * @param array  $bulk The current bulk action array.
 	 *
 	 * @return void
 	 */
 	public function gp_translation_set_bulk_action_post( $project, $locale, $translation_set, $bulk ) {
 		// Status counters.
-		$count = array();
+		$count            = array();
 		$count['err_api'] = 0;
 		$count['err_add'] = 0;
 		$count['added']   = 0;
@@ -207,11 +227,11 @@ class Translate {
 			// Split the $row_id by '-' and get the first one (which will be the id of the original).
 			$original_id = gp_array_get( explode( '-', $row_id ), 0 );
 			// Get the original based on the above id.
-			$original    = GP::$original->get( $original_id );
+			$original = GP::$original->get( $original_id );
 
 			// If there is no original or it's a plural, skip it.
 			if ( ! $original || $original->plural ) {
-				$count['skipped']++;
+				++$count['skipped'];
 				continue;
 			}
 
@@ -221,7 +241,7 @@ class Translate {
 		}
 
 		// Translate all the originals that we found.
-		//$translate = Translate::instance();
+		// $translate = Translate::instance();.
 		$results = $this->translate_batch( $locale, $singulars );
 
 		// Did we get an error?
@@ -246,14 +266,14 @@ class Translate {
 
 			// Did we get an error?
 			if ( is_wp_error( $translation ) ) {
-				$count['err_api']++;
+				++$count['err_api'];
 				continue;
 			}
 
 			$warnings = GP::$translation_warnings->check( $singular, null, array( $translation ), $locale );
 
-			// Build a data array to store
-			$data = array();
+			// Build a data array to store.
+			$data                       = array();
 			$data['original_id']        = $original_id;
 			$data['user_id']            = get_current_user_id();
 			$data['translation_set_id'] = $translation_set->id;
@@ -264,9 +284,9 @@ class Translate {
 			// Insert the item in to the database.
 			$inserted = GP::$translation->create( $data );
 			if ( $inserted ) {
-				$count['added']++;
+				++$count['added'];
 			} else {
-				$count['err_add']++;
+				++$count['err_add'];
 			}
 		}
 
@@ -282,9 +302,9 @@ class Translate {
 	 */
 	protected function set_bulk_action_notice( $count ) {
 		// If there are no errors, display how many translations were added.
-		if ( $count['err_api'] == 0 && $count['err_add'] == 0 ) {
+		if ( 0 === $count['err_api'] && 0 === $count['err_add'] ) {
 			// translators: %d is the number of translations added.
-			gp_notice_set( sprintf( __( '%d fuzzy translation from OpenAI were added.', GP_OAI_TD ), $count['added'] ) );
+			gp_notice_set( sprintf( __( '%d fuzzy translation from OpenAI were added.', 'gp-translate-with-openai' ), $count['added'] ) );
 			return;
 		}
 
@@ -292,26 +312,25 @@ class Translate {
 
 		if ( $count['added'] ) {
 			// translators: %d is the number of translations added.
-			$messages[] = sprintf( __( 'Added: %d.', GP_OAI_TD ), $count['added'] );
+			$messages[] = sprintf( __( 'Added: %d.', 'gp-translate-with-openai' ), $count['added'] );
 		}
 
 		if ( $count['err_api'] ) {
 			// translators: %d is the number of errors from OpenAI.
-			$messages[] = sprintf( __( 'Error from OpenAI: %d.', GP_OAI_TD ), $count['err_api'] );
+			$messages[] = sprintf( __( 'Error from OpenAI: %d.', 'gp-translate-with-openai' ), $count['err_api'] );
 		}
 
 		if ( $count['err_add'] ) {
 			// translators: %d is the number of errors adding translations.
-			$messages[] = sprintf( __( 'Error adding: %d.', GP_OAI_TD ), $count['err_add'] );
+			$messages[] = sprintf( __( 'Error adding: %d.', 'gp-translate-with-openai' ), $count['err_add'] );
 		}
 
 		if ( $count['skipped'] ) {
 			// translators: %d is the number of skipped translations.
-			$messages[] = sprintf( __( 'Skipped: %d.', GP_OAI_TD ), $count['skipped'] );
+			$messages[] = sprintf( __( 'Skipped: %d.', 'gp-translate-with-openai' ), $count['skipped'] );
 		}
 
 		// Create a message string and add it to the GlotPress notices.
 		gp_notice_set( implode( ' ', $messages ), 'error' );
 	}
-
 }

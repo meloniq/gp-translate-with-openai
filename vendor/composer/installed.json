@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "orhanerday/open-ai",
-            "version": "5.2",
-            "version_normalized": "5.2.0.0",
+            "version": "5.3",
+            "version_normalized": "5.3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orhanerday/open-ai.git",
-                "reference": "d8c78fe2f5fed59e0ba458f90b5589ed9f13a367"
+                "reference": "4ba9c704197b91260c89a1dc147cf46f81824f02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orhanerday/open-ai/zipball/d8c78fe2f5fed59e0ba458f90b5589ed9f13a367",
-                "reference": "d8c78fe2f5fed59e0ba458f90b5589ed9f13a367",
+                "url": "https://api.github.com/repos/orhanerday/open-ai/zipball/4ba9c704197b91260c89a1dc147cf46f81824f02",
+                "reference": "4ba9c704197b91260c89a1dc147cf46f81824f02",
                 "shasum": ""
             },
             "require": {
@@ -25,7 +25,7 @@
                 "pestphp/pest": "^1.20",
                 "spatie/ray": "^1.28"
             },
-            "time": "2024-05-29T12:31:54+00:00",
+            "time": "2025-03-12T12:04:33+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -52,7 +52,7 @@
             ],
             "support": {
                 "issues": "https://github.com/orhanerday/open-ai/issues",
-                "source": "https://github.com/orhanerday/open-ai/tree/5.2"
+                "source": "https://github.com/orhanerday/open-ai/tree/5.3"
             },
             "funding": [
                 {
@@ -63,6 +63,6 @@
             "install-path": "../orhanerday/open-ai"
         }
     ],
-    "dev": false,
+    "dev": true,
     "dev-package-names": []
 }

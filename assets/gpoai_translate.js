@@ -6,7 +6,7 @@ $gp.openai_translate = function( $ ) { return {
 		$gp.openai_translate.install_hooks();
 	},
 	install_hooks: function() {
-		$( $gp.openai_translate.table ).on( 'click', 'a.gp_openai_translate', $gp.openai_translate.hooks.openai_translate )
+		$( $gp.openai_translate.table ).on( 'click', 'a.gpoai_translate', $gp.openai_translate.hooks.openai_translate )
 	},
 	openai_translate: function( link ) {
 		original_text = link.parents( '.textareas' ).siblings( '.original' ).text();
@@ -21,15 +21,15 @@ $gp.openai_translate = function( $ ) { return {
 		$gp.notices.notice( 'Translating via OpenAI&hellip;' );
 
 		var data = {
-			'action': 'gp_openai_translate',
+			'action': 'gpoai_translate',
 			'query': '',
-			'locale': gp_openai_translate.locale,
-			'nonce': gp_openai_translate.nonce,
+			'locale': gpoai_translate.locale,
+			'nonce': gpoai_translate.nonce,
 			'original': original_text,
 		};
 
 		jQuery.ajax( {
-			url: gp_openai_translate.ajaxurl,
+			url: gpoai_translate.ajaxurl,
 			type: 'post',
 			data: data,
 			datatype: 'json',

@@ -1,0 +1,103 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GP Translate with OpenAI\n"
+"POT-Creation-Date: 2025-11-01 21:44+0100\n"
+"PO-Revision-Date: 2024-10-21 11:59+0100\n"
+"Last-Translator: MELONIQ.NET\n"
+"Language-Team: MELONIQ.NET\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 3.8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_nx:1,2;_x:1,2c;_ex:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:1,2,3c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: src/class-admin-page.php:32 src/class-admin-page.php:33
+#: src/class-admin-page.php:48 src/class-profile.php:64
+msgid "GP Translate with OpenAI"
+msgstr ""
+
+#: src/class-frontend.php:86 src/class-frontend.php:101
+msgid "Translate with OpenAI"
+msgstr ""
+
+#: src/class-profile.php:69 src/class-settings.php:74 src/class-settings.php:85
+msgid "OpenAI API Key"
+msgstr ""
+
+#: src/class-profile.php:73 src/class-settings.php:75
+#: src/class-settings.php:211
+msgid "Enter the OpenAI API Key."
+msgstr ""
+
+#: src/class-profile.php:78 src/class-settings.php:109
+#: src/class-settings.php:120
+msgid "OpenAI Model"
+msgstr ""
+
+#: src/class-profile.php:86 src/class-settings.php:110
+#: src/class-settings.php:239
+msgid "Select the OpenAI Model."
+msgstr ""
+
+#: src/class-profile.php:91 src/class-settings.php:144
+#: src/class-settings.php:155
+msgid "OpenAI Custom Prompt"
+msgstr ""
+
+#: src/class-profile.php:95 src/class-settings.php:145
+#: src/class-settings.php:254
+msgid "Enter your custom prompt for OpenAI translation suggestions."
+msgstr ""
+
+#: src/class-profile.php:100 src/class-settings.php:179
+#: src/class-settings.php:190
+msgid "OpenAI Temperature"
+msgstr ""
+
+#: src/class-profile.php:104 src/class-settings.php:180
+#: src/class-settings.php:269
+msgid "Enter the OpenAI Temperature."
+msgstr ""
+
+#: src/class-settings.php:33
+msgid "OpenAI API"
+msgstr ""
+
+#: src/class-settings.php:57
+msgid "Settings for OpenAI API access."
+msgstr ""
+
+#: src/class-settings.php:239 src/class-settings.php:269
+msgid "Default:"
+msgstr ""
+
+#: src/class-translate.php:307
+#, php-format
+msgid "%d fuzzy translation from OpenAI were added."
+msgstr ""
+
+#: src/class-translate.php:315
+#, php-format
+msgid "Added: %d."
+msgstr ""
+
+#: src/class-translate.php:320
+#, php-format
+msgid "Error from OpenAI: %d."
+msgstr ""
+
+#: src/class-translate.php:325
+#, php-format
+msgid "Error adding: %d."
+msgstr ""
+
+#: src/class-translate.php:330
+#, php-format
+msgid "Skipped: %d."
+msgstr ""

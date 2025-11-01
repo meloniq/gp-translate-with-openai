@@ -1,9 +1,8 @@
-=== GP OpenAI Translate ===
+=== GP Translate with OpenAI ===
 Contributors: meloniq
-Tags: glotpress, translate, openai
-Requires at least: 4.9
-Tested up to: 6.7
-Stable tag: 1.0
+Tags: glotpress, translate, machine translate, openai, chatgpt
+Tested up to: 6.8
+Stable tag: 1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +17,7 @@ Note: This plugin assumes the source language is English as support for automate
 
 = Configuration =
 
-Once you have installed GP OpenAI Translate, go to your WordPress admin screen and select "Settings > GP OpenAI Translate".
+Once you have installed GP Translate with OpenAI, go to your WordPress admin screen and select "Settings > GP Translate with OpenAI".
 
 You will have few fields to configure:
 
@@ -33,19 +32,23 @@ Each user can adjust, change these configuration on his profile page.
 
 * Login/signup [OpenAI API](https://platform.openai.com/)
 * Go to your account and scroll down to [API keys](https://platform.openai.com/settings/organization/api-keys)
-* Create new `secret key` and put it into `Global API Key` of GP OpenAI Translate.
+* Create new `secret key` and put it into `Global API Key` of GP Translate with OpenAI.
 
 
 = Setting the API key =
 
-To set the API key for all users, go to the WordPress Dashboard, then Settings, then "GP OpenAI Translate" and set the API key.
+To set the API key for all users, go to the WordPress Dashboard, then Settings, then "GP Translate with OpenAI" and set the API key.
 
-To set if for a specific user, go to the users profile and scroll down to the "GP OpenAI Translate" section and set the API key.
+To set if for a specific user, go to the users profile and scroll down to the "GP Translate with OpenAI" section and set the API key.
 
 Note, if both a global and user API key are set, the user API key will override the global API key.
 
 
 == Changelog ==
+
+= 1.1 =
+* Added support for GPT-5 Mini model.
+* Renamed files to meet WordPress coding standards.
 
 = 1.0 =
 * Initial release.

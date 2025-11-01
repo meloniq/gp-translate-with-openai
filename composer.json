@@ -1,12 +1,7 @@
 {
-    "name": "gp/openai-translate",
-    "description": "OpenAI Translate plugin for GlotPress.",
+    "name": "meloniq/gp-openai-translate",
+    "description": "GlotPress Translate with OpenAI.",
     "license": "GPL-2.0-or-later",
-    "autoload": {
-        "psr-4": {
-            "Gp\\OpenaiTranslate\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "meloniq",
@@ -15,6 +10,6 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "orhanerday/open-ai": "^5.1"
+        "orhanerday/open-ai": "^5.3"
     }
 }

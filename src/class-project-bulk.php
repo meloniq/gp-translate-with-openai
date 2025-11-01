@@ -1,5 +1,11 @@
 <?php
-namespace Gp\OpenaiTranslate;
+/**
+ * Project Bulk class file.
+ *
+ * @package Meloniq\GpOpenaiTranslate
+ */
+
+namespace Meloniq\GpOpenaiTranslate;
 
 use GP;
 use GP_Project;
@@ -7,29 +13,52 @@ use GP_Locales;
 use GP_Translation;
 use GP_Translation_Set;
 
-class ProjectBulk {
+/**
+ * Project Bulk class.
+ */
+class Project_Bulk {
 
 	/**
-	 * Compatibility properties.
+	 * API.
+	 *
+	 * @var mixed
 	 */
 	public $api;
+
+	/**
+	 * Last method called.
+	 *
+	 * @var string
+	 */
 	public $last_method_called;
+
+	/**
+	 * Class name.
+	 *
+	 * @var string
+	 */
 	public $class_name;
+
+	/**
+	 * Request running.
+	 *
+	 * @var bool
+	 */
 	public $request_running;
 
 	/**
 	 * Singleton instance.
 	 *
-	 * @var ProjectBulk
+	 * @var Project_Bulk
 	 */
 	private static $instance;
 
 	/**
 	 * Get the singleton instance.
 	 *
-	 * @return ProjectBulk
+	 * @return Project_Bulk
 	 */
-	public static function instance() : ProjectBulk {
+	public static function instance(): Project_Bulk {
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -48,7 +77,7 @@ class ProjectBulk {
 			return;
 		}
 
-		add_action( 'gp_project_actions', array( $this, 'gp_project_actions'), 10, 2 );
+		add_action( 'gp_project_actions', array( $this, 'gp_project_actions' ), 10, 2 );
 		add_action( 'gp_init', array( $this, 'gp_init' ), 11 );
 	}
 
@@ -59,19 +88,19 @@ class ProjectBulk {
 	 */
 	public function gp_init() {
 		// Add the routes directly to the global GP_Router object.
-		GP::$router->add( "/openai-bulk-translate/(.+?)", array( $this, 'bulk_translate_project' ), 'get' );
-		GP::$router->add( "/openai-bulk-translate/(.+?)", array( $this, 'bulk_translate_project' ), 'post' );
+		GP::$router->add( '/openai-bulk-translate/(.+?)', array( $this, 'bulk_translate_project' ), 'get' );
+		GP::$router->add( '/openai-bulk-translate/(.+?)', array( $this, 'bulk_translate_project' ), 'post' );
 	}
 
 	/**
 	 * Adds option to projects menu.
 	 *
-	 * @param array $actions The current actions array.
+	 * @param array  $actions The current actions array.
 	 * @param object $project The current project object.
 	 *
 	 * @return array The updated actions array.
 	 */
-	public function gp_project_actions( array $actions, object $project ) : array {
+	public function gp_project_actions( array $actions, object $project ): array {
 		// Check if the user has the permissions to write to the project.
 		if ( ! GP::$permission->user_can( wp_get_current_user(), 'write', 'project' ) ) {
 			return $actions;
@@ -89,7 +118,7 @@ class ProjectBulk {
 	 *
 	 * @return void
 	 */
-	public function bulk_translate_project( $project_path ) : void {
+	public function bulk_translate_project( $project_path ): void {
 		// First let's ensure we have decoded the project path for use later.
 		$project_path = urldecode( $project_path );
 
@@ -99,17 +128,17 @@ class ProjectBulk {
 
 		// If we don't have rights, just redirect back to the project.
 		if ( ! GP::$permission->user_can( wp_get_current_user(), 'write', 'project' ) ) {
-			wp_redirect( $url );
+			wp_safe_redirect( $url );
 		}
 
 		// Create a project class to use to get the project object.
-		$project_class = new GP_Project;
+		$project_class = new GP_Project();
 
 		// Get the project object from the project path that was passed in.
 		// TODO: Do not work with subprojects.
 		$project_obj = $project_class->by_path( $project_path );
 		if ( ! is_object( $project_obj ) ) {
-			wp_redirect( $url );
+			wp_safe_redirect( $url );
 		}
 
 		// Get the translations sets from the project ID.
@@ -117,7 +146,7 @@ class ProjectBulk {
 
 		// Since there might be a lot of translations to process in a batch, let's setup some time limits
 		// to make sure we don't give a white screen of death to the user.
-		$time_start = microtime( true );
+		$time_start    = microtime( true );
 		$max_exec_time = ini_get( 'max_execution_time' ) * 0.7;
 
 		// Loop through all the sets.
@@ -136,13 +165,17 @@ class ProjectBulk {
 				continue;
 			}
 			// Create a template array to pass in to the worker function at the end of the loop.
-			$bulk = array( 'action' => 'gp_openai_translate', 'priority' => 0, 'row-ids' => array() );
+			$bulk = array(
+				'action'   => 'gp_openai_translate',
+				'priority' => 0,
+				'row-ids'  => array(),
+			);
 
 			// Create a new GP_Translation object to use.
-			$translation = new GP_Translation;
+			$translation = new GP_Translation();
 
 			// Get the strings for the current translation.
-			$strings = $translation->for_translation( $project_obj, $set, 'no-limit', array( 'status' => 'untranslated') );
+			$strings = $translation->for_translation( $project_obj, $set, 'no-limit', array( 'status' => 'untranslated' ) );
 
 			// Add the strings to the $bulk template we setup earlier.
 			foreach ( $strings as $string ) {
@@ -157,7 +190,7 @@ class ProjectBulk {
 		}
 
 		// Redirect back to the project home.
-		wp_redirect( $url );
+		wp_safe_redirect( $url );
 	}
 
 	/**
@@ -177,5 +210,4 @@ class ProjectBulk {
 	public function after_request() {
 		// Do nothing.
 	}
-
 }
