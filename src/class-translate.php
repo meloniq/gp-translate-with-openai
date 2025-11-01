@@ -110,8 +110,7 @@ class Translate {
 
 		// check for api error.
 		if ( isset( $response->error->code ) ) {
-			// 'insufficient_quota', 'context_length_exceeded'
-			// $error = $response->error->message;
+			// insufficient_quota, context_length_exceeded.
 			return $text;
 		}
 
@@ -145,7 +144,7 @@ class Translate {
 		}
 
 		// If we don't have any strings, throw an error.
-		if ( count( $strings ) == 0 ) {
+		if ( count( $strings ) === 0 ) {
 			return new WP_Error( 'gpoai_translate', 'No strings found to translate.' );
 		}
 
@@ -179,27 +178,27 @@ class Translate {
 	/**
 	 * Cleans up the translation string.
 	 *
-	 * @param string $string The string to clean.
+	 * @param string $text The string to clean.
 	 *
 	 * @return string
 	 */
-	protected function clean_translation( $string ) {
-		$string = preg_replace_callback(
+	protected function clean_translation( $text ) {
+		$text = preg_replace_callback(
 			'/% (s|d)/i',
-			function ( $m ) {
+			function ( $m ) { // phpcs:ignore
 				return '"%".strtolower($m[1])';
 			},
-			$string
+			$text
 		);
-		$string = preg_replace_callback(
+		$text = preg_replace_callback(
 			'/% (\d+) \$ (s|d)/i',
-			function ( $m ) {
+			function ( $m ) { // phpcs:ignore
 				return '"%".$m[1]."\\$".strtolower($m[2])';
 			},
-			$string
+			$text
 		);
 
-		return $string;
+		return $text;
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <?php
 /**
- * AdminPage class file.
+ * Admin Page class file.
  *
  * @package Meloniq\GpOpenaiTranslate
  */
@@ -8,9 +8,9 @@
 namespace Meloniq\GpOpenaiTranslate;
 
 /**
- * AdminPage class.
+ * Admin Page class.
  */
-class AdminPage {
+class Admin_Page {
 
 	/**
 	 * Constructor.

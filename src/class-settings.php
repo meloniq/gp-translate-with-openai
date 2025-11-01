@@ -226,6 +226,7 @@ class Settings {
 			'gpt-4-turbo',
 			'gpt-4o',
 			'gpt-4o-mini',
+			'gpt-5-mini',
 		);
 
 		$model = get_option( $field_name, 'gpt-3.5-turbo' );

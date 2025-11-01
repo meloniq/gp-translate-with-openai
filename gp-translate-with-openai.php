@@ -32,10 +32,6 @@ define( 'GPOAI_TD', 'gp-translate-with-openai' );
 define( 'GPOAI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'GPOAI_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
-// Include the autoloader so we can dynamically include the rest of the classes.
-require_once trailingslashit( __DIR__ ) . 'vendor/autoload.php';
-
-
 /**
  * Setup plugin data.
  *
@@ -44,7 +40,21 @@ require_once trailingslashit( __DIR__ ) . 'vendor/autoload.php';
 function setup() {
 	global $gpoai_translate;
 
-	$gpoai_translate['admin-page'] = new AdminPage();
+	// load openai lib
+	// https://github.com/orhanerday/open-ai .
+	require_once trailingslashit( __DIR__ ) . 'vendor/autoload.php';
+
+	require_once trailingslashit( __DIR__ ) . 'src/class-config.php';
+	require_once trailingslashit( __DIR__ ) . 'src/class-locales.php';
+	require_once trailingslashit( __DIR__ ) . 'src/class-translate.php';
+
+	require_once trailingslashit( __DIR__ ) . 'src/class-admin-page.php';
+	require_once trailingslashit( __DIR__ ) . 'src/class-settings.php';
+	require_once trailingslashit( __DIR__ ) . 'src/class-profile.php';
+	require_once trailingslashit( __DIR__ ) . 'src/class-frontend.php';
+	require_once trailingslashit( __DIR__ ) . 'src/class-ajax.php';
+
+	$gpoai_translate['admin-page'] = new Admin_Page();
 	$gpoai_translate['settings']   = new Settings();
 	$gpoai_translate['profile']    = new Profile();
 	$gpoai_translate['frontend']   = new Frontend();
