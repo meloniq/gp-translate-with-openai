@@ -2,7 +2,7 @@
 Contributors: meloniq
 Tags: glotpress, translate, machine translate, openai, chatgpt
 Tested up to: 6.8
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,10 @@ Note, if both a global and user API key are set, the user API key will override 
 
 
 == Changelog ==
+
+= 1.1 =
+* Added support for GPT-5 Mini model.
+* Renamed files to meet WordPress coding standards.
 
 = 1.0 =
 * Initial release.

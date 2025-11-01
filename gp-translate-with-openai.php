@@ -8,7 +8,7 @@
  *
  * Requires at least: 4.9
  * Requires PHP:      7.4
- * Version:           1.0
+ * Version:           1.1
  *
  * Author:            MELONIQ.NET
  * Author URI:        https://meloniq.net/
