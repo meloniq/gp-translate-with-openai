@@ -106,7 +106,7 @@ class Project_Bulk {
 			return $actions;
 		}
 
-		$actions['openai'] = gp_link_get( gp_url( 'openai-bulk-translate/' . $project->slug ), __( 'OpenAI Translate', GP_OAI_TD ) );
+		$actions['openai'] = gp_link_get( gp_url( 'openai-bulk-translate/' . $project->slug ), __( 'OpenAI Translate', 'gp-translate-with-openai' ) );
 
 		return $actions;
 	}
@@ -153,7 +153,7 @@ class Project_Bulk {
 		foreach ( $translation_sets as $set ) {
 			// Check to see how our time is doing, if we're over out time limit, stop processing.
 			if ( microtime( true ) - $time_start > $max_exec_time ) {
-				gp_notice_set( __( 'Not all strings translated as we ran out of execution time!', GP_OAI_TD ) );
+				gp_notice_set( __( 'Not all strings translated as we ran out of execution time!', 'gp-translate-with-openai' ) );
 				break;
 			}
 
