@@ -59,5 +59,10 @@ function setup() {
 	$gpoai_translate['profile']    = new Profile();
 	$gpoai_translate['frontend']   = new Frontend();
 	$gpoai_translate['ajax']       = new Ajax();
+
+	// Do not work with subprojects.
+	// Not sure if translating a whole project is a good idea.
+	require_once trailingslashit( __DIR__ ) . 'src/class-project-bulk.php';
+	$gp_openai_translate['project-bulk'] = new Project_Bulk();
 }
 add_action( 'after_setup_theme', 'Meloniq\GpOpenaiTranslate\setup' );
