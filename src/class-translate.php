@@ -83,19 +83,40 @@ class Translate {
 		if ( ! $locale_obj ) {
 			return new WP_Error( 'gp_set_no_locale', 'Locale not found!' );
 		}
+		$locale_name = $locale_obj->english_name;
 
-		// get prompt.
-		$base_prompt   = sprintf( 'Translate the following text to %s language: ', $locale_obj->english_name );
+		// Build glossary replacement.
+		$glossary_text  = '';
+		$matching_terms = Glossary::find_matching_terms( $text, $locale );
+		if ( ! empty( $matching_terms ) ) {
+			$glossary_text = Glossary::format_for_prompt( $matching_terms );
+		}
+
+		// Get custom prompt.
 		$custom_prompt = Config::get_custom_prompt();
-		$prompt        = $custom_prompt . ' ' . $base_prompt . ' ' . $text;
+
+		// Build system prompt from template with placeholder replacement.
+		$system_prompt = ! empty( $custom_prompt ) ? $custom_prompt : Config::get_default_prompt();
+		$system_prompt = str_replace(
+			array( '{SOURCE_LANGUAGE}', '{TARGET_LANGUAGE}', '{GLOSSARY}' ),
+			array( 'English', $locale_name, $glossary_text ),
+			$system_prompt
+		);
+
+		// Clean up extra whitespace from empty placeholders.
+		$system_prompt = preg_replace( '/\s+/', ' ', trim( $system_prompt ) );
 
 		// build request.
 		$request = array(
 			'model'             => Config::get_model(),
 			'messages'          => array(
 				array(
+					'role'    => 'system',
+					'content' => $system_prompt,
+				),
+				array(
 					'role'    => 'user',
-					'content' => $prompt,
+					'content' => $text,
 				),
 			),
 			'temperature'       => Config::get_temperature(),

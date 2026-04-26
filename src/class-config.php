@@ -47,6 +47,24 @@ class Config {
 	}
 
 	/**
+	 * Get available models.
+	 *
+	 * @return array
+	 */
+	public static function get_available_models(): array {
+		$models = array(
+			'gpt-3.5-turbo',
+			'gpt-4',
+			'gpt-4-turbo',
+			'gpt-4o',
+			'gpt-4o-mini',
+			'gpt-5-mini',
+		);
+
+		return apply_filters( 'gpoai_available_models', $models );
+	}
+
+	/**
 	 * Get the model.
 	 *
 	 * @return string
@@ -162,5 +180,25 @@ class Config {
 		}
 
 		return $user_id;
+	}
+
+	/**
+	 * Get default prompt.
+	 *
+	 * @return string
+	 */
+	public static function get_default_prompt(): string {
+		$prompt_arr = array(
+			'You are a professional translation engine.',
+			'Translate the text from {SOURCE_LANGUAGE} to {TARGET_LANGUAGE}.',
+			'Return ONLY the translated text.',
+			'Use natural language.',
+			'Do not explain.',
+			'Do not add quotes.',
+			'Preserve punctuation, formatting, HTML, placeholders (%s, %1$s, %2$d), and variables exactly.',
+			'{GLOSSARY}',
+		);
+
+		return implode( "\n", $prompt_arr );
 	}
 }

@@ -45,6 +45,7 @@ function setup() {
 	require_once trailingslashit( __DIR__ ) . 'vendor/autoload.php';
 
 	require_once trailingslashit( __DIR__ ) . 'src/class-config.php';
+	require_once trailingslashit( __DIR__ ) . 'src/class-glossary.php';
 	require_once trailingslashit( __DIR__ ) . 'src/class-locales.php';
 	require_once trailingslashit( __DIR__ ) . 'src/class-translate.php';
 
