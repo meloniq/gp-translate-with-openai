@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GP Translate with OpenAI\n"
-"POT-Creation-Date: 2025-11-01 21:44+0100\n"
+"POT-Creation-Date: 2026-04-26 23:18+0200\n"
 "PO-Revision-Date: 2024-10-21 11:59+0100\n"
 "Last-Translator: MELONIQ.NET\n"
 "Language-Team: MELONIQ.NET\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #: src/class-admin-page.php:32 src/class-admin-page.php:33
-#: src/class-admin-page.php:48 src/class-profile.php:64
+#: src/class-admin-page.php:48 src/class-profile.php:58
 msgid "GP Translate with OpenAI"
 msgstr ""
 
@@ -26,42 +26,54 @@ msgstr ""
 msgid "Translate with OpenAI"
 msgstr ""
 
-#: src/class-profile.php:69 src/class-settings.php:74 src/class-settings.php:85
+#: src/class-profile.php:63 src/class-settings.php:74 src/class-settings.php:85
 msgid "OpenAI API Key"
 msgstr ""
 
-#: src/class-profile.php:73 src/class-settings.php:75
-#: src/class-settings.php:211
+#: src/class-profile.php:67 src/class-settings.php:75
+#: src/class-settings.php:222
 msgid "Enter the OpenAI API Key."
 msgstr ""
 
-#: src/class-profile.php:78 src/class-settings.php:109
+#: src/class-profile.php:72 src/class-settings.php:109
 #: src/class-settings.php:120
 msgid "OpenAI Model"
 msgstr ""
 
-#: src/class-profile.php:86 src/class-settings.php:110
-#: src/class-settings.php:239
+#: src/class-profile.php:80 src/class-settings.php:110
+#: src/class-settings.php:242
 msgid "Select the OpenAI Model."
 msgstr ""
 
-#: src/class-profile.php:91 src/class-settings.php:144
+#: src/class-profile.php:80 src/class-profile.php:106
+#: src/class-settings.php:242 src/class-settings.php:281
+msgid "Default:"
+msgstr ""
+
+#: src/class-profile.php:85 src/class-settings.php:144
 #: src/class-settings.php:155
 msgid "OpenAI Custom Prompt"
 msgstr ""
 
-#: src/class-profile.php:95 src/class-settings.php:145
-#: src/class-settings.php:254
-msgid "Enter your custom prompt for OpenAI translation suggestions."
+#: src/class-profile.php:90 src/class-settings.php:259
+msgid "Override the default prompt. Leave empty to use the global setting."
 msgstr ""
 
-#: src/class-profile.php:100 src/class-settings.php:179
-#: src/class-settings.php:190
+#: src/class-profile.php:92
+msgid "Placeholders:"
+msgstr ""
+
+#: src/class-profile.php:95 src/class-settings.php:264
+msgid "Default Prompt:"
+msgstr ""
+
+#: src/class-profile.php:102 src/class-settings.php:190
+#: src/class-settings.php:201
 msgid "OpenAI Temperature"
 msgstr ""
 
-#: src/class-profile.php:104 src/class-settings.php:180
-#: src/class-settings.php:269
+#: src/class-profile.php:106 src/class-settings.php:191
+#: src/class-settings.php:281
 msgid "Enter the OpenAI Temperature."
 msgstr ""
 
@@ -73,31 +85,35 @@ msgstr ""
 msgid "Settings for OpenAI API access."
 msgstr ""
 
-#: src/class-settings.php:239 src/class-settings.php:269
-msgid "Default:"
+#: src/class-settings.php:145
+msgid "Enter your custom prompt for OpenAI translation suggestions."
 msgstr ""
 
-#: src/class-translate.php:307
+#: src/class-settings.php:261
+msgid "Available placeholders:"
+msgstr ""
+
+#: src/class-translate.php:328
 #, php-format
 msgid "%d fuzzy translation from OpenAI were added."
 msgstr ""
 
-#: src/class-translate.php:315
+#: src/class-translate.php:336
 #, php-format
 msgid "Added: %d."
 msgstr ""
 
-#: src/class-translate.php:320
+#: src/class-translate.php:341
 #, php-format
 msgid "Error from OpenAI: %d."
 msgstr ""
 
-#: src/class-translate.php:325
+#: src/class-translate.php:346
 #, php-format
 msgid "Error adding: %d."
 msgstr ""
 
-#: src/class-translate.php:330
+#: src/class-translate.php:351
 #, php-format
 msgid "Skipped: %d."
 msgstr ""

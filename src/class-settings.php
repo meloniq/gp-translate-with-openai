@@ -144,7 +144,7 @@ class Settings {
 				'label'             => __( 'OpenAI Custom Prompt', 'gp-translate-with-openai' ),
 				'description'       => __( 'Enter your custom prompt for OpenAI translation suggestions.', 'gp-translate-with-openai' ),
 				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
+				'sanitize_callback' => array( $this, 'sanitize_custom_prompt' ),
 				'default'           => '',
 				'show_in_rest'      => false,
 			),
@@ -160,6 +160,17 @@ class Settings {
 				'label_for' => $field_name,
 			),
 		);
+	}
+
+	/**
+	 * Sanitize the custom prompt. Allow newlines but sanitize for safety.
+	 *
+	 * @param string $value The value to sanitize.
+	 *
+	 * @return string
+	 */
+	public function sanitize_custom_prompt( $value ): string {
+		return wp_kses( $value, array() );
 	}
 
 	/**
@@ -220,16 +231,8 @@ class Settings {
 	public function render_field_model(): void {
 		$field_name = 'gpoai_model';
 
-		$models = array(
-			'gpt-3.5-turbo',
-			'gpt-4',
-			'gpt-4-turbo',
-			'gpt-4o',
-			'gpt-4o-mini',
-			'gpt-5-mini',
-		);
-
-		$model = get_option( $field_name, 'gpt-3.5-turbo' );
+		$models = Config::get_available_models();
+		$model  = get_option( $field_name, 'gpt-3.5-turbo' );
 		?>
 		<select name="<?php echo esc_attr( $field_name ); ?>" id="<?php echo esc_attr( $field_name ); ?>">
 		<?php foreach ( $models as $model_name ) { ?>
@@ -248,10 +251,19 @@ class Settings {
 	public function render_field_custom_prompt(): void {
 		$field_name = 'gpoai_custom_prompt';
 
-		$custom_prompt = get_option( $field_name, '' );
+		$default_prompt = Config::get_default_prompt();
+		$custom_prompt  = get_option( $field_name, '' );
 		?>
 		<textarea name="<?php echo esc_attr( $field_name ); ?>" id="<?php echo esc_attr( $field_name ); ?>" class="large-text"><?php echo esc_textarea( $custom_prompt ); ?></textarea>
-		<p class="description"><?php esc_html_e( 'Enter your custom prompt for OpenAI translation suggestions.', 'gp-translate-with-openai' ); ?></p>
+		<p class="description">
+			<?php esc_html_e( 'Override the default prompt. Leave empty to use the global setting.', 'gp-translate-with-openai' ); ?>
+			<br>
+			<?php esc_html_e( 'Available placeholders:', 'gp-translate-with-openai' ); ?>
+			<code>{SOURCE_LANGUAGE}</code>, <code>{TARGET_LANGUAGE}</code>, <code>{GLOSSARY}</code>
+			<br>
+			<?php esc_html_e( 'Default Prompt:', 'gp-translate-with-openai' ); ?>
+			<pre><?php echo esc_html( $default_prompt ); ?></pre>
+		</p>
 		<?php
 	}
 

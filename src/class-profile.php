@@ -48,18 +48,12 @@ class Profile {
 			return;
 		}
 
-		$models = array(
-			'gpt-3.5-turbo',
-			'gpt-4',
-			'gpt-4-turbo',
-			'gpt-4o',
-			'gpt-4o-mini',
-		);
-
-		$api_key       = get_user_meta( $user->ID, 'gpoai_api_key', true );
-		$model         = get_user_meta( $user->ID, 'gpoai_model', true );
-		$custom_prompt = get_user_meta( $user->ID, 'gpoai_custom_prompt', true );
-		$temperature   = get_user_meta( $user->ID, 'gpoai_temperature', true );
+		$api_key        = get_user_meta( $user->ID, 'gpoai_api_key', true );
+		$models         = Config::get_available_models();
+		$model          = get_user_meta( $user->ID, 'gpoai_model', true );
+		$default_prompt = Config::get_default_prompt();
+		$custom_prompt  = get_user_meta( $user->ID, 'gpoai_custom_prompt', true );
+		$temperature    = get_user_meta( $user->ID, 'gpoai_temperature', true );
 		?>
 		<h3 id="gp-translate-with-openai"><?php esc_html_e( 'GP Translate with OpenAI', 'gp-translate-with-openai' ); ?></h3>
 		<input type="hidden" name="gpoai_nonce" value="<?php echo esc_attr( wp_create_nonce( 'gpoai_nonce' ) ); ?>">
@@ -83,7 +77,7 @@ class Profile {
 						<option value="<?php echo esc_attr( $model_name ); ?>" <?php selected( $model, $model_name ); ?>><?php echo esc_html( $model_name ); ?></option>
 					<?php } ?>
 					</select>
-					<p class="description"><?php esc_html_e( 'Select the OpenAI Model.', 'gp-translate-with-openai' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Select the OpenAI Model.', 'gp-translate-with-openai' ); ?> <?php esc_html_e( 'Default:', 'gp-translate-with-openai' ); ?><code>gpt-3.5-turbo</code></p>
 				</td>
 			</tr>
 			<tr>
@@ -91,8 +85,16 @@ class Profile {
 					<label for="gpoai_custom_prompt"><?php esc_html_e( 'OpenAI Custom Prompt', 'gp-translate-with-openai' ); ?></label>
 				</th>
 				<td>
-					<textarea name="gpoai_custom_prompt" id="gpoai_custom_prompt" class="large-text"><?php echo esc_attr( $custom_prompt ); ?></textarea>
-					<p class="description"><?php esc_html_e( 'Enter your custom prompt for OpenAI translation suggestions.', 'gp-translate-with-openai' ); ?></p>
+					<textarea name="gpoai_custom_prompt" id="gpoai_custom_prompt" class="large-text"><?php echo esc_textarea( $custom_prompt ); ?></textarea>
+					<p class="description">
+						<?php esc_html_e( 'Override the default prompt. Leave empty to use the global setting.', 'gp-translate-with-openai' ); ?>
+						<br>
+						<?php esc_html_e( 'Placeholders:', 'gp-translate-with-openai' ); ?>
+						<code>{SOURCE_LANGUAGE}</code>, <code>{TARGET_LANGUAGE}</code>, <code>{GLOSSARY}</code>
+						<br>
+						<?php esc_html_e( 'Default Prompt:', 'gp-translate-with-openai' ); ?>
+						<pre><?php echo esc_html( $default_prompt ); ?></pre>
+					</p>
 				</td>
 			</tr>
 			<tr>
@@ -101,7 +103,7 @@ class Profile {
 				</th>
 				<td>
 					<input type="text" id="gpoai_temperature" name="gpoai_temperature" value="<?php echo esc_attr( $temperature ); ?>">
-					<p class="description"><?php esc_html_e( 'Enter the OpenAI Temperature.', 'gp-translate-with-openai' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Enter the OpenAI Temperature.', 'gp-translate-with-openai' ); ?> <?php esc_html_e( 'Default:', 'gp-translate-with-openai' ); ?><code>0</code></p>
 				</td>
 			</tr>
 		</table>
